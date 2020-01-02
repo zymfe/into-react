@@ -155,7 +155,7 @@ mainOutputPath = 'build/node_modules/react/umd/react.development.js'
 
 验证一下：
 
-执行 npm install 会报错，可以先安装 yarn：sudo npm install yarn -g，然后执行 npm install、npm run build 即可。
+执行 npm install 会报错，可以先安装 yarn：sudo npm install yarn -g，然后执行 yarn install、npm run build 即可。
 
 ### 注意
 
