@@ -73,7 +73,7 @@ class ChildComponent extends React.Component {
 }
 ```
 
-点击父组件的 add 按钮，修改完 count 值之后，ChildComponent1 和 值之后，ChildComponent1 都会执行自己的 render 方法，重新渲染。
+点击父组件的 add 按钮，修改完 count 值之后，ChildComponent1 和 ChildComponent2 都会执行自己的 render 方法，重新渲染。
 
 但是，ChildComponent1 的 render 函数中并没有依赖 count 属性，也就是说，父组件的 count 值改变之后，子组件并不需要立即渲染，只是在子组件执行 onClick 的时候才会用到 count。
 
@@ -83,7 +83,7 @@ class ChildComponent extends React.Component {
 
 1、对于 ChildComponent1，可以在 shouldComponentUpdate 函数中，通过一系列的逻辑判断，返回 true 或 false，返回 false，则当前组件不执行 render 函数。
 
-2、对于 ChildComponent2，React 为我们提供了 React.PureComponent 这个顶层 API，以上 ChildComponent 可以修改为：
+2、对于 ChildComponent2，React 为我们提供了 React.PureComponent 这个顶层 API，以上 ChildComponent2 可以修改为：
 
 ``` javascript
 import React from 'react'
