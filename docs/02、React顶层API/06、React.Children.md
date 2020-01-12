@@ -66,7 +66,7 @@ function mapChildren(children, func, context) {
     return children;
   }
   // 这个 result 就是上面 demo 执行完后在控制台中看到的结果
-  // 这个地方可以打电话看下执行流程：
+  // 这个地方可以打断点看下执行流程：
   debugger
   const result = [];
   mapIntoWithKeyPrefixInternal(children, result, null, func, context);
@@ -80,7 +80,7 @@ function mapChildren(children, func, context) {
 function mapIntoWithKeyPrefixInternal(children, array, prefix, func, context) {
   let escapedPrefix = '';
   if (prefix != null) {
-    // 添加分割标识符
+    // 添加分割标识符，表示这是一个子组件，即 this.props.children[n]
     escapedPrefix = escapeUserProvidedKey(prefix) + '/';
   }
   // 从 TraverseContextPool 中 pop 一个元素，后面会用到
@@ -143,8 +143,8 @@ function traverseAllChildrenImpl(
         }
     }
   }
-  // 如果是 REACT_ELEMENT_TYPE 或 REACT_PORTAL_TYPE
-  // 会执行 callback，这里的 callback 是 mapSingleChildIntoContext
+  // 如果是 REACT_ELEMENT_TYPE 或 REACT_PORTAL_TYPE，会执行 callback
+  // 这里的 callback 是 mapSingleChildIntoContext
   if (invokeCallback) {
     callback(
       traverseContext,
@@ -164,12 +164,14 @@ function traverseAllChildrenImpl(
 
   // 这里的 children 有两种情况
   // 1、以上 demo 中 map 函数的第一个参数
-  // 2、以上 demo 中 map 函数的返回值中或其子元素（可能是多维数组）
+  // 2、以上 demo 中 map 函数的返回值或其子元素（可能是多维数组）
   if (Array.isArray(children)) {
     for (let i = 0; i < children.length; i++) {
       child = children[i];
       nextName = nextNamePrefix + getComponentKey(child, i);
-      // 递归调用
+      // 递归调用，这里的入参 callback 可能有两种情况
+      // 1、mapSingleChildIntoContext
+      // 2、下面 mapSingleChildIntoContext 函数中继续执行 mapIntoWithKeyPrefixInternal 函数传入的最后一个参数
       subtreeCount += traverseAllChildrenImpl(
         child,
         nextName,
