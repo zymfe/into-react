@@ -1,4 +1,4 @@
-a factory function to return ReactElement 
+the factory function to return a ReactElement 
 ``` javascript
 /**
  * Create and return a new ReactElement of the given type.
@@ -115,3 +115,7 @@ const ReactElement = function(type, key, ref, self, source, owner, props) {
   return element;
 };
 ```
+
+执行 ReactDOM.render 传入的第一个参数，就是 ReactElement。
+
+我们自己写的组件，会被编译成这种格式，包含 $$typeof、type、key 等属性。
