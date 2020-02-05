@@ -71,12 +71,21 @@ function FiberRootNode(containerInfo, tag, hydrate) {
   this.containerInfo = containerInfo;
   this.pendingChildren = null;
   this.pingCache = null;
+  // 任务有三种，其优先级为：
+  //（1）没有提交的任务
+  //（2）没有提交的被挂起的任务
+  //（3）没有提交的可能被挂起的任务
+  // 当前更新对应的过期时间
   this.finishedExpirationTime = NoWork;
   // 记录在一次更新渲染过程中，已完成的更新任务
   // 整个应用会存在多个更新任务，每个任务的更新优先级都不一样
   // 每个任务更新完成之后，它就是一个 finishedWork，被标记在应用的 FiberRootNode 上
   // 然后从 FiberRootNode 上读取 finishedWork，最后输出到对应的 DOM 节点上
+  // 已经完成任务的 FiberRoot 对象，如果只有一个Root，那么该对象就是这个Root对应的Fiber或null
+  // 在commit(提交)阶段只会处理该值对应的任务
   this.finishedWork = null;
+  // 在任务被挂起的时候，通过setTimeout设置的响应内容，
+  // 并且清理之前挂起的任务 还没触发的timeout
   this.timeoutHandle = noTimeout;
   // 顶层 context 对象，只有主动调用 renderSubtreeIntoContainer 时才会有
   this.context = null;
