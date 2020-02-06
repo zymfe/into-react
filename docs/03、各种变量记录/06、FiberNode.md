@@ -84,10 +84,15 @@ function FiberNode(
   // 如果子节点有update的话，就记录应该更新的时间
   this.childExpirationTime = NoWork;
 
-  // 在 Fiber 更新过程中，每个 Fiber 都有一个与其对应的 Fiber
-  // current <=> workInProgress，渲染完成之后交换位置，相当于是一个 patch 的过程
-  // 也是一个对象池，不需要重复创建 current 和 workInProgress 对象，可重复利用
-  // 在 React 中叫做 DoubleBuffer
+  // 在 Fiber 更新过程中，每个 Fiber 都有一个与其对应的 Fiber(alternate)
+  // current <=> workInProgress，渲染完成之后交换位置
+  // diff 出的变化记录在这个 fiber 上
+  // The alternate of the current fiber is the work-in-progress, and the alternate of the work-in-progress is the current fiber.
+  // A fiber's alternate is created lazily using a function called cloneFiber. Rather than always creating a new object, cloneFiber will attempt to reuse the fiber's alternate if it exists, minimizing allocations.
+  // You should think of the alternate field as an implementation detail, but it pops up often enough in the codebase that it's valuable to discuss it here.
+  // flush: To flush a fiber is to render its output onto the screen.
+  // work-in-progress: A fiber that has not yet completed; conceptually, a stack frame which has not yet returnedre
+  // At any time, a component instance has at most two fibers that correspond to it: the current, flushed fiber, and the work-in-progress fibe
   this.alternate = null;
 
   if (enableProfilerTimer) {

@@ -1,13 +1,16 @@
 ``` javascript
-export function initializeUpdateQueue<State>(fiber: Fiber): void {
+export function createUpdateQueue<State>(baseState: State): UpdateQueue<State> {
   const queue: UpdateQueue<State> = {
-    baseState: fiber.memoizedState,
-    baseQueue: null,
-    shared: {
-      pending: null,
-    },
-    effects: null,
+    baseState,
+    firstUpdate: null,
+    lastUpdate: null,
+    firstCapturedUpdate: null,
+    lastCapturedUpdate: null,
+    firstEffect: null,
+    lastEffect: null,
+    firstCapturedEffect: null,
+    lastCapturedEffect: null,
   };
-  fiber.updateQueue = queue;
+  return queue;
 }
 ```
