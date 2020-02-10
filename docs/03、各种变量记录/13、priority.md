@@ -12,11 +12,11 @@ export const Sync = MAX_SIGNED_31_BIT_INT;
 ```
 priority level:
 ``` javascript
-export const unstable_ImmediatePriority = 1; // sync
-export const unstable_UserBlockingPriority = 2;
-export const unstable_NormalPriority = 3;
-export const unstable_IdlePriority = 5;
-export const unstable_LowPriority = 4;
+var ImmediatePriority = 1;
+var UserBlockingPriority = 2;
+var NormalPriority = 3;
+var LowPriority = 4;
+var IdlePriority = 5;
 ```
 
 ``` javascript
